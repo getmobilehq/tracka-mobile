@@ -11,6 +11,7 @@ import PrivateRoute from "./components/login/PrivateRoute";
 import ComposeProviders from "./utils/composeProviders";
 import { SidebarProvider } from "./context/SidebarContext";
 import ProjectsProvider from "./context/Projects";
+import AllocationsProvider from "./context/Allocations";
 
 const Layout = lazy(() => import("./layout/Layout.js"));
 const Login = lazy(() => import("./pages/Login"));
@@ -19,7 +20,7 @@ const ForgetPassword = lazy(() => import("./pages/ForgotPassword.js"));
 const ConfirmPassword = lazy(() => import("./pages/ConfirmPassword.js"));
 
 const App = () => {
-  const components = [SidebarProvider, ProjectsProvider];
+  const components = [SidebarProvider, ProjectsProvider, AllocationsProvider];
 
   return (
     <ComposeProviders components={components}>

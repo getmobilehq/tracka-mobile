@@ -9,23 +9,25 @@ import ProjectsServices from "../../services/ProjectServices";
 
 const ProjectsContext = createContext();
 
-const ProjectsProvider = ({ children }) => {
-  const [loading, setLoading] = useState(false);
+const AllocationsProvider = ({ children }) => {
+  const [isLoading, setIsLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
+  const [nextPage, setNextPage] = useState(1);
   const [projects, setProjects] = useState([]);
   const [pageDetails, setPageDetails] = useState({});
 
   const fetchPage = async (page = 1) => {
-    setLoading(true);
-    const response = await ProjectsServices.getProjectsPerPage(page);
+    setIsLoading(true);
+    const response = await ProjectsServices.getAllocationsPerPage(page);
 
-    setLoading(false);
+    setIsLoading(false);
 
-    console.log({ page, response });
+    setProjects((prevProjects) => [
+      ...prevProjects,
+      ...response.allocations.data,
+    ]);
 
-    setProjects((prevProjects) => [...prevProjects, ...response.projects.data]);
-
-    setPageDetails(response.projects);
+    setPageDetails(response.allocations);
 
     return response;
   };
@@ -35,9 +37,6 @@ const ProjectsProvider = ({ children }) => {
   }, []);
 
   const handlePageChange = async (page) => {
-    console.log("Setting Page Number", page);
-
-    // console.log(page);
     setCurrentPage(page);
 
     page > pageDetails.current_page && fetchPage(page);
@@ -55,10 +54,10 @@ const ProjectsProvider = ({ children }) => {
   return (
     <ProjectsContext.Provider
       value={{
-        pageDetails,
+        data: pageDetails,
         currentPage,
         projects,
-        loading,
+        loading: isLoading,
         // refetchData,
         totalCount,
         pageSize,
@@ -76,10 +75,10 @@ export function useProjectsContext() {
 
   if (context === undefined) {
     throw new Error(
-      "useProjectsContext should be used within a ProjectsProvider"
+      "useAllocationsContext should be used within a AllocationsProvider"
     );
   }
 
   return context;
 }
-export default ProjectsProvider;
+export default AllocationsProvider;

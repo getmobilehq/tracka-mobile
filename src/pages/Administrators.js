@@ -1,57 +1,25 @@
-import React, { useEffect, useContext } from "react";
-import {
-  Table,
-  TableHeader,
-  TableCell,
-  TableFooter,
-  TableContainer,
-  Input,
-  Card,
-  CardBody,
-  Pagination,
-  Button,
-} from "@windmill/react-ui";
-
-import useFilter from "../hooks/useFilter";
-import Loading from "../components/preloader/Loading";
+import React, { useRef, useContext } from "react";
+import { Input, Card, CardBody, Button } from "@windmill/react-ui";
 import PageTitle from "../components/Typography/PageTitle";
-import UsersTable from "../components/users/UsersTable";
 import { FiPlus } from "react-icons/fi";
 import { SidebarContext } from "../context/SidebarContext";
-import { useAdminContext } from "../context/Admin";
-import { getUserRole, isSPAdmin } from "../utils/roles";
-import { useAuthContext } from "../context/AuthContext";
+import MainDrawer from "../components/drawer/MainDrawer";
+import AdminDrawer from "../components/admin/AdminDrawer";
 
 const Administrators = () => {
-  const { data, loading, refetchData } = useAdminContext();
-  const {
-    state: { adminInfo },
-  } = useAuthContext();
-
-  useEffect(() => {
-    refetchData();
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const userType = getUserRole(adminInfo);
-
   const { toggleDrawer } = useContext(SidebarContext);
 
-  const {
-    searchRef,
-    handleChangePage,
-    totalResults,
-    resultsPerPage,
-    dataTable,
-    handleSubmitForAll,
-  } = useFilter(data);
+  const handleSubmitForAll = () => {};
+
+  const searchRef = useRef();
 
   return (
     <>
-      <PageTitle>
-        {userType === "IS_SHIPPING_ADMIN" && "Bay"} Administrators
-      </PageTitle>
+      <PageTitle>Invite Administrators</PageTitle>
+
+      <MainDrawer>
+        <AdminDrawer />
+      </MainDrawer>
 
       <Card className="min-w-0 shadow-xs overflow-hidden bg-white dark:bg-gray-800 mb-5">
         <CardBody>
@@ -84,43 +52,6 @@ const Administrators = () => {
           </form>
         </CardBody>
       </Card>
-
-      {loading ? (
-        <Loading loading={loading} />
-      ) : (
-        <TableContainer className="mb-8 rounded-b-lg">
-          <Table>
-            <TableHeader>
-              <tr>
-                <TableCell>S/N</TableCell>
-                <TableCell>Name</TableCell>
-                <TableCell>Email</TableCell>
-                <TableCell>Phone</TableCell>
-                <TableCell>Admin Type</TableCell>
-                <TableCell>Joining Date</TableCell>
-
-                <TableCell className="text-right">Actions</TableCell>
-              </tr>
-            </TableHeader>
-
-            <UsersTable
-              users={dataTable?.filter((user) => isSPAdmin(user))}
-              isAdminTable
-            />
-          </Table>
-
-          {dataTable && dataTable?.length ? (
-            <TableFooter>
-              <Pagination
-                totalResults={totalResults}
-                resultsPerPage={resultsPerPage}
-                onChange={handleChangePage}
-                label="Table navigation"
-              />
-            </TableFooter>
-          ) : null}
-        </TableContainer>
-      )}
     </>
   );
 };

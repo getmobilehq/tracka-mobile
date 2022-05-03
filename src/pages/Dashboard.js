@@ -1,117 +1,70 @@
 import React from "react";
-import { Bar, Doughnut } from "react-chartjs-2";
 import {
   Table,
   TableHeader,
   TableCell,
-  TableFooter,
   TableContainer,
-  Pagination,
 } from "@windmill/react-ui";
-import { FiUsers, FiTruck, FiMapPin, FiTrendingUp } from "react-icons/fi";
-
-import useFilter from "../hooks/useFilter";
+import { FiTrendingUp } from "react-icons/fi";
+import { GrMoney } from "react-icons/gr";
 import Loading from "../components/preloader/Loading";
 import CardItem from "../components/dashboard/CardItem";
 import PageTitle from "../components/Typography/PageTitle";
-import { useShippingContext } from "../context/Shipping";
-import { useBookingContext } from "../context/Booking";
-import BookingTable from "../components/booking/bookingTable";
-import { getUserRole } from "../utils/roles";
-import { useAuthContext } from "../context/AuthContext";
-import { useBayContext } from "../context/Bay";
+import { useProjectsContext } from "../context/Projects";
+import ProjectsTable from "../components/projects/ProjectTable";
 
 const Dashboard = () => {
-  // const { data: bookings } = useBookingContext();
-  const { data: bays } = useBayContext();
+  const { pageDetails, loading, currentTableData } = useProjectsContext();
 
-  const {
-    state: { adminInfo },
-  } = useAuthContext();
-
-  const userType = getUserRole(adminInfo);
-
-  const loading = false;
-
-  // const { handleChangePage, totalResults, resultsPerPage, dataTable } =
-  //   useFilter(null);
+  console.log({ pageDetails });
 
   return (
     <>
       <PageTitle>Dashboard Overview</PageTitle>
-      <div className={`grid gap-4 mb-8 md:grid-cols-2 xl:grid-cols-4`}>
+      <div className={`grid gap-4 mb-8 md:grid-cols-2 xl:grid-cols-2`}>
         <CardItem
-          title="Holding Bays"
-          Icon={FiMapPin}
-          quantity={0}
-          className="text-orange-600 dark:text-orange-100 bg-orange-100 dark:bg-orange-500"
-        />
-
-        <CardItem
-          title="Pending Bookings"
+          title="Projects"
           Icon={FiTrendingUp}
-          quantity={0}
+          quantity={pageDetails?.total || 0}
           className="text-blue-600 dark:text-blue-100 bg-blue-100 dark:bg-blue-500"
         />
 
         <CardItem
-          title="Customers"
-          Icon={FiUsers}
+          title="Allocations"
+          Icon={GrMoney}
           quantity={0}
           className="text-teal-600 dark:text-teal-100 bg-teal-100 dark:bg-teal-500"
         />
-
-        <CardItem
-          title="Completed Bookings"
-          Icon={FiTruck}
-          quantity={0}
-          className="text-green-600 dark:text-green-100 bg-green-100 dark:bg-green-500"
-        />
       </div>
 
-      <PageTitle>Latest Bookings</PageTitle>
+      <PageTitle>Latest Projetcs</PageTitle>
 
       {loading ? (
         <Loading loading={loading} />
       ) : (
-        <TableContainer className="mb-8">
-          <Table>
-            <TableHeader>
-              <tr>
-                <TableCell>S/N</TableCell>
-                <TableCell>Shipping Line</TableCell>
-                <TableCell>Holding Bay</TableCell>
-                <TableCell>Drop-Off Date</TableCell>
-                <TableCell>Bill of Laden</TableCell>
-                <TableCell>Container Number</TableCell>
-                <TableCell>Container Size</TableCell>
-                <TableCell>Status</TableCell>
-                <TableCell>Date of Booking</TableCell>
-              </tr>
-            </TableHeader>
+        currentTableData?.length !== 0 && (
+          <TableContainer className="mb-8 rounded-b-lg">
+            <Table>
+              <TableHeader>
+                <tr>
+                  <TableCell>S/N</TableCell>
+                  <TableCell>Title</TableCell>
+                  <TableCell>Region</TableCell>
+                  <TableCell>Year</TableCell>
+                  <TableCell>Code</TableCell>
+                  <TableCell>State</TableCell>
+                  <TableCell>Type</TableCell>
+                  <TableCell>Agency</TableCell>
+                  <TableCell>Ministry</TableCell>
+                  <TableCell>Amount</TableCell>
+                </tr>
+              </TableHeader>
 
-            {/* <BookingTable bookings={dataTable} /> */}
-          </Table>
-
-          {/* <TableFooter>
-            <Pagination
-              totalResults={totalResults}
-              resultsPerPage={resultsPerPage}
-              onChange={handleChangePage}
-              label="Transaction Page Navigation"
-            />  
-          </TableFooter> */}
-        </TableContainer>
+              <ProjectsTable projects={currentTableData.slice(0, 6)} />
+            </Table>
+          </TableContainer>
+        )
       )}
-
-      {/* <div className="mb-8">
-        <Link
-          className="underline hover:text-green-700 dark:text-gray-300"
-          to="/transactions"
-        >
-          More Transactions
-        </Link>
-      </div> */}
     </>
   );
 };

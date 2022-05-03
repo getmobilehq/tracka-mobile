@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState, useRef } from "react";
+import React, { useRef } from "react";
 import {
   Table,
   TableHeader,
@@ -15,50 +15,17 @@ import Loading from "../components/preloader/Loading";
 import PageTitle from "../components/Typography/PageTitle";
 import ProjectsTable from "../components/projects/ProjectTable";
 import Pagination from "../components/pagination";
-import ProjectServices from "../services/ProjectServices";
+import { useProjectsContext } from "../context/Projects";
 
 const Projects = () => {
-  const [loading, setLoading] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [projects, setProjects] = useState([]);
-  const [pageDetails, setPageDetails] = useState({});
-
-  const fetchPage = async (page = 1) => {
-    setLoading(true);
-    const response = await ProjectServices.getProjectsPerPage(page);
-
-    setLoading(false);
-
-    console.log({ page, response });
-
-    setProjects((prevProjects) => [...prevProjects, ...response.projects.data]);
-
-    setPageDetails(response.projects);
-
-    return response;
-  };
-
-  useEffect(() => {
-    fetchPage();
-  }, []);
-
-  const handlePageChange = async (page) => {
-    console.log("Setting Page Number", page);
-
-    // console.log(page);
-    setCurrentPage(page);
-
-    page > pageDetails.current_page && fetchPage(page);
-  };
-
-  const pageSize = pageDetails?.per_page;
-  const totalCount = pageDetails?.total;
-
-  const currentTableData = useMemo(() => {
-    const firstPageIndex = (currentPage - 1) * pageSize;
-    const lastPageIndex = firstPageIndex + pageSize;
-    return projects.slice(firstPageIndex, lastPageIndex);
-  }, [currentPage, pageSize, projects]);
+  const {
+    loading,
+    totalCount,
+    pageSize,
+    currentPage,
+    currentTableData,
+    handlePageChange,
+  } = useProjectsContext();
 
   const handleSubmitForAll = () => {};
 
