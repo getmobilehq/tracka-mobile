@@ -17,6 +17,7 @@ import ProjectServices from "../../services/ProjectServices";
 import useAsync from "../../hooks/useAsync";
 import LGAAllocationTable from "../../components/allocations/LGAAllocationTable";
 import Pagination from "../../components/pagination";
+import NoData from "../../components/table/NoData";
 
 const LGAAllocation = () => {
   const [loading, setLoading] = useState(false);
@@ -202,7 +203,7 @@ const LGAAllocation = () => {
           </TableFooter>
         </TableContainer>
       ) : (
-        <NotFound title="Allocations" />
+        <NoData title="Allocations" />
       )}
     </>
   );
