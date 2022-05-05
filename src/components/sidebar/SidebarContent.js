@@ -1,28 +1,31 @@
-import React from "react";
+import React, { useContext } from "react";
 import { NavLink, Route } from "react-router-dom";
-import { Button } from "@windmill/react-ui";
+import { Button, WindmillContext } from "@windmill/react-ui";
 import { IoLogOutOutline } from "react-icons/io5";
 import { useAuthContext } from "../../context/AuthContext";
-
+import Logo from "../../assets/img/Logo.png";
 import sidebar from "../../routes/sidebar";
-import { getUserRole } from "../../utils/roles";
+import { ThemeContext } from "../../context/ThemeContext";
 
 const SidebarContent = () => {
-  const {
-    state: { adminInfo },
-    dispatch,
-  } = useAuthContext();
+  const { dispatch } = useAuthContext();
 
   const handleLogOut = () => {
     dispatch({ type: "USER_LOGOUT" });
     localStorage.removeItem("adminInfo");
   };
 
+  const { mode } = useContext(WindmillContext);
+
   return (
     <div className="py-4 text-gray-500 dark:text-gray-400">
       <a className=" text-gray-900 dark:text-gray-200" href="/dashboard">
         <div className="mb-8 mt-2 px-6">
-          <h2 className="font-bold">TrackaMobile</h2>
+          {mode === "light" ? (
+            <h2 className="font-bold">TrackaMobile</h2>
+          ) : (
+            <img src={Logo} alt="Logo" />
+          )}
         </div>
       </a>
 
