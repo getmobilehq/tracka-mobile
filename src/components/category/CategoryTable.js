@@ -1,43 +1,48 @@
 import React from "react";
-import { TableBody, TableRow, TableCell, Avatar } from "@windmill/react-ui";
+import { TableCell, TableBody, TableRow } from "@windmill/react-ui";
+import useToggleDrawer from "../../hooks/useToggleDrawer";
+import EditDeleteButton from "../table/EditDeleteButton";
 import MainModal from "../modal/MainModal";
 import MainDrawer from "../drawer/MainDrawer";
 import CategoryDrawer from "../drawer/CategoryDrawer";
-import useToggleDrawer from "../../hooks/useToggleDrawer";
-import EditDeleteButton from "../table/EditDeleteButton";
 
 const CategoryTable = ({ categories }) => {
   const { serviceId, handleModalOpen, handleUpdate } = useToggleDrawer();
 
   return (
     <>
-      <MainModal id={serviceId} />
+      {serviceId && <MainModal id={serviceId} />}
+
       <MainDrawer>
-        {serviceId ? <CategoryDrawer id={serviceId} /> : <CategoryDrawer />}
+        <CategoryDrawer id={serviceId} />
       </MainDrawer>
 
       <TableBody>
-        {categories?.map((parent) => (
-          <TableRow key={parent._id}>
-            <TableCell className="font-semibold uppercase text-xs">
-              {parent._id.substring(20, 24)}
-            </TableCell>
+        {categories?.map((option, key) => (
+          <TableRow key={option?.id}>
             <TableCell>
-              <Avatar
-                className="hidden mr-3 md:block bg-gray-50 p-1"
-                src={parent.icon}
-                alt={parent.parent}
-              />
+              <span className="font-semibold uppercase text-xs">{key + 1}</span>
             </TableCell>
 
-            <TableCell className="font-medium text-sm">
-              {parent.parent}
-            </TableCell>
-            <TableCell className="text-sm">{parent.children.length}</TableCell>
-            <TableCell className="text-sm">{parent.type}</TableCell>
             <TableCell>
+              <div>
+                <div>
+                  <h2 className="text-sm capitalize font-medium">
+                    {option?.name}
+                  </h2>
+                </div>
+              </div>
+            </TableCell>
+
+            <TableCell>
+              <span className="text-sm">
+                {new Date(option?.createdAt).toLocaleString() || "--"}
+              </span>
+            </TableCell>
+
+            <TableCell className="flex justify-end items-center">
               <EditDeleteButton
-                id={parent._id}
+                id={option.id}
                 handleUpdate={handleUpdate}
                 handleModalOpen={handleModalOpen}
               />

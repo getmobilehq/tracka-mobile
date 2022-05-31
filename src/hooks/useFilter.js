@@ -2,7 +2,7 @@ import * as dayjs from "dayjs";
 import isBetween from "dayjs/plugin/isBetween";
 import { useEffect, useMemo, useRef, useState } from "react";
 
-const useFilter = (data, pageDetails, currentPage) => {
+const useFilter = (data) => {
   const [filter, setFilter] = useState("");
   const [sortedField, setSortedField] = useState("");
   const [searchText, setSearchText] = useState("");
@@ -16,10 +16,8 @@ const useFilter = (data, pageDetails, currentPage) => {
   const [status, setStatus] = useState("");
   const [role, setRole] = useState("");
   const [time, setTime] = useState("");
-  // const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1);
   const [dataTable, setDataTable] = useState([]); //tableTable for showing on table according to filtering
-
-  console.log("props", { data, pageDetails, currentPage });
 
   // =========== REFS ============
   const searchRef = useRef("");
@@ -36,6 +34,23 @@ const useFilter = (data, pageDetails, currentPage) => {
     date.setDate(date.getDate() - time);
 
     let services = data;
+
+    // if (location.pathname === "/dashboard") {
+    //   const orderPending = services.filter(
+    //     (statusP) => statusP.status === "Pending"
+    //   );
+    //   setPending(orderPending);
+
+    //   const orderProcessing = services.filter(
+    //     (statusO) => statusO.status === "Processing"
+    //   );
+    //   setProcessing(orderProcessing);
+
+    //   const orderDelivered = services.filter(
+    //     (statusD) => statusD.status === "Delivered"
+    //   );
+    //   setDelivered(orderDelivered);
+    // }
 
     //products filtering
     if (filter) {
@@ -136,20 +151,18 @@ const useFilter = (data, pageDetails, currentPage) => {
 
   //pagination functionality start
 
-  const { per_page, total } = pageDetails ?? {};
+  const resultsPerPage = 8;
+  const totalResults = serviceData?.length || 0;
 
-  const resultsPerPage = per_page;
-  const totalResults = total || 0;
-
-  // const handleChangePage = (p) => {
-  //   // setCurrentPage(p);
-  // };
+  const handleChangePage = (p) => {
+    setCurrentPage(p);
+  };
 
   useEffect(() => {
     setDataTable(
       serviceData &&
         serviceData?.slice(
-          currentPage - 1 * resultsPerPage,
+          (currentPage - 1) * resultsPerPage,
           currentPage * resultsPerPage
         )
     );
@@ -199,7 +212,7 @@ const useFilter = (data, pageDetails, currentPage) => {
     setStatus,
     setRole,
     setTime,
-    // handleChangePage,
+    handleChangePage,
     totalResults,
     resultsPerPage,
     dataTable,

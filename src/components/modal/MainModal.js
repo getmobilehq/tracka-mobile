@@ -8,15 +8,15 @@ import AdminServices from "../../services/AdminServices";
 import useToggleDrawer from "../../hooks/useToggleDrawer";
 import ShippingServices from "../../services/ShippingServices";
 import { useShippingContext } from "../../context/Shipping";
-import BayServices from "../../services/BayServices";
-import { useBayContext } from "../../context/Bay";
+import { useCategoryContext } from "../../context/Category";
+import CategoryServices from "../../services/CategoryServices";
 
 const MainModal = ({ id }) => {
   const { isModalOpen, closeModal, setIsUpdate } = useContext(SidebarContext);
   const location = useLocation();
   const { setServiceId } = useToggleDrawer();
   const { refetchData: refetchShippingData } = useShippingContext();
-  const { refetchData: refetchBayData } = useBayContext();
+  const { refetchData: refetchCategoryData } = useCategoryContext();
 
   const handleDelete = () => {
     if (location.pathname === "/shipping-lines") {
@@ -30,12 +30,12 @@ const MainModal = ({ id }) => {
       closeModal();
     }
 
-    if (location.pathname === "/bays") {
-      BayServices.deleteBayArea(id)
+    if (location.pathname === "/category") {
+      CategoryServices.deleteCategory(id)
         .then((res) => {
           setIsUpdate(true);
-          notifySuccess("Holding Bay deleted successfully.");
-          refetchBayData();
+          notifySuccess("Category deleted successfully.");
+          refetchCategoryData();
         })
         .catch((err) => {});
       closeModal();

@@ -16,13 +16,13 @@ import { FiPlus } from "react-icons/fi";
 import { SidebarContext } from "../context/SidebarContext";
 import useFilter from "../hooks/useFilter";
 import Loading from "../components/preloader/Loading";
-import { useBayContext } from "../context/Bay";
-import BayTable from "../components/bay/bayTable";
+import CategoryTable from "../components/category/categoryTable";
+import { useCategoryContext } from "../context/Category";
 
-const HoldingBay = () => {
+const Category = () => {
   const { toggleDrawer } = useContext(SidebarContext);
 
-  const { data, loading } = useBayContext();
+  const { data, loading } = useCategoryContext();
 
   const {
     searchRef,
@@ -36,7 +36,7 @@ const HoldingBay = () => {
 
   return (
     <>
-      <PageTitle>Holding Bays</PageTitle>
+      <PageTitle>Category</PageTitle>
 
       <Card className="min-w-0 shadow-xs overflow-hidden bg-white dark:bg-gray-800 mb-5">
         <CardBody>
@@ -50,7 +50,7 @@ const HoldingBay = () => {
                 className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 border-transparent focus:bg-white"
                 type="search"
                 name="search"
-                placeholder="Search by holding bay"
+                placeholder="Search Category"
               />
               <button
                 type="submit"
@@ -63,7 +63,7 @@ const HoldingBay = () => {
                 <span className="mr-3">
                   <FiPlus />
                 </span>
-                Add More Bays
+                Create Category
               </Button>
             </div>
           </form>
@@ -79,17 +79,13 @@ const HoldingBay = () => {
               <tr>
                 <TableCell>S/N</TableCell>
                 <TableCell>Name</TableCell>
-                <TableCell>Address</TableCell>
-                <TableCell>Shipping Line</TableCell>
-                <TableCell>Email</TableCell>
-                <TableCell>Phone</TableCell>
-                <TableCell>Opening Hours</TableCell>
+                <TableCell>Created At</TableCell>
 
                 <TableCell className="text-right">Actions</TableCell>
               </tr>
             </TableHeader>
 
-            <BayTable bays={dataTable} />
+            <CategoryTable categories={dataTable} />
           </Table>
 
           {serviceData.length > 0 && (
@@ -108,4 +104,4 @@ const HoldingBay = () => {
   );
 };
 
-export default HoldingBay;
+export default Category;

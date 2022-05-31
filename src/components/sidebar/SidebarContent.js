@@ -5,7 +5,6 @@ import { IoLogOutOutline } from "react-icons/io5";
 import { useAuthContext } from "../../context/AuthContext";
 import Logo from "../../assets/img/Logo.png";
 import sidebar from "../../routes/sidebar";
-import { ThemeContext } from "../../context/ThemeContext";
 
 const SidebarContent = () => {
   const { dispatch } = useAuthContext();

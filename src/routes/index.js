@@ -4,6 +4,8 @@ import { lazy } from "react";
 const Dashboard = lazy(() => import("../pages/Dashboard"));
 const Projects = lazy(() => import("../pages/Projects"));
 const Allocations = lazy(() => import("../pages/Allocations/index"));
+const Category = lazy(() => import("../pages/Category"));
+const CommunityNeeds = lazy(() => import("../pages/CommunityNeeds"));
 const Administrators = lazy(() => import("../pages/Administrators"));
 const Page404 = lazy(() => import("../pages/404"));
 const EditProfile = lazy(() => import("../pages/EditProfile"));
@@ -20,6 +22,14 @@ const routes = [
   {
     path: "/allocations",
     component: Allocations,
+  },
+  {
+    path: "/category",
+    component: Category,
+  },
+  {
+    path: "/community-needs",
+    component: CommunityNeeds,
   },
   {
     path: "/administrators",

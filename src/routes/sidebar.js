@@ -1,8 +1,5 @@
-import { FiGrid, FiUser, FiUsers } from "react-icons/fi";
-import { GiHarborDock } from "react-icons/gi";
-import { RiShipLine } from "react-icons/ri";
+import { FiGrid, FiUsers } from "react-icons/fi";
 import { HiOutlineDocumentReport } from "react-icons/hi";
-import { roles } from "../utils/roles";
 
 /**
  * ⚠ These are used just to render the Sidebar!
@@ -34,6 +31,18 @@ const sidebar = [
     path: "/allocations",
     icon: HiOutlineDocumentReport,
     name: "Allocations",
+    // permissions: [IS_SP_ADMIN, IS_SHIPPING_ADMIN, IS_BAY_ADMIN],
+  },
+  {
+    path: "/category",
+    icon: HiOutlineDocumentReport,
+    name: "Category",
+    // permissions: [IS_SP_ADMIN, IS_SHIPPING_ADMIN, IS_BAY_ADMIN],
+  },
+  {
+    path: "/community-needs",
+    icon: HiOutlineDocumentReport,
+    name: "Community Needs",
     // permissions: [IS_SP_ADMIN, IS_SHIPPING_ADMIN, IS_BAY_ADMIN],
   },
   // {

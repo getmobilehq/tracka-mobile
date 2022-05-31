@@ -2,7 +2,7 @@ import axios from "axios";
 import { notifyError } from "../utils/toast";
 
 const axiosInstance = axios.create({
-  baseURL: process.env.REACT_APP_API_BASE_URL,
+  baseURL: "https://api.budgit.link",
   timeout: 500000,
 });
 
