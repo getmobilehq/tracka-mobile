@@ -16,7 +16,7 @@ import { FiPlus } from "react-icons/fi";
 import { SidebarContext } from "../context/SidebarContext";
 import useFilter from "../hooks/useFilter";
 import Loading from "../components/preloader/Loading";
-import CategoryTable from "../components/category/categoryTable";
+import CategoryTable from "../components/category/categoryTableComp";
 import { useCategoryContext } from "../context/Category";
 
 const Category = () => {
