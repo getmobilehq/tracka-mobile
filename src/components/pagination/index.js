@@ -32,7 +32,9 @@ const Pagination = (props) => {
     onPageChange(currentPage - 1);
   };
 
-  let lastPage = paginationRange[paginationRange?.length - 1];
+  let lastPage = paginationRange
+    ? paginationRange[paginationRange?.length - 1]
+    : null;
 
   return (
     <ul
@@ -45,8 +47,8 @@ const Pagination = (props) => {
         onClick={onPrevious}
       >
         <button
-          class="align-bottom inline-flex items-center justify-center cursor-pointer leading-5 transition-colors duration-150 font-medium focus:outline-none p-2 rounded-md text-gray-600 dark:text-gray-400 focus:outline-none border border-transparent opacity-50 cursor-not-allowed"
-          disabled=""
+          class="align-bottom inline-flex items-center justify-center cursor-pointer leading-5 transition-colors duration-150 font-medium focus:outline-none p-2 rounded-md text-gray-600 dark:text-gray-400 border border-transparent opacity-50"
+          disabled={currentPage === 1}
           type="button"
           aria-label="Previous"
         >
@@ -82,7 +84,7 @@ const Pagination = (props) => {
             // })}
           >
             <button
-              class={`align-bottom inline-flex items-center justify-center cursor-pointer leading-5 transition-colors duration-150 font-medium focus:outline-none px-3 py-1 rounded-md text-xs text-gray-600 dark:text-gray-400 focus:outline-none border border-transparent hover:bg-gray-100 focus:ring focus:ring-gray-300 dark:hover:bg-gray-500 dark:hover:text-gray-300 dark:hover:bg-opacity-10 ${
+              class={`align-bottom inline-flex items-center justify-center cursor-pointer leading-5 transition-colors duration-150 font-medium px-3 py-1 rounded-md text-xs text-gray-600 dark:text-gray-400 focus:outline-none border border-transparent hover:bg-gray-100 focus:ring focus:ring-gray-300 dark:hover:bg-gray-500 dark:hover:text-gray-300 dark:hover:bg-opacity-10 ${
                 pageNumber === currentPage ? "bg-blue-600 dark:text-white" : ""
               }`}
               onClick={() => onPageChange(pageNumber)}
@@ -102,9 +104,10 @@ const Pagination = (props) => {
         onClick={onNext}
       >
         <button
-          class="align-bottom inline-flex items-center justify-center cursor-pointer leading-5 transition-colors duration-150 font-medium focus:outline-none p-2 rounded-md text-gray-600 dark:text-gray-400 focus:outline-none border border-transparent active:bg-transparent hover:bg-gray-100 focus:ring focus:ring-gray-300 dark:hover:bg-gray-500 dark:hover:text-gray-300 dark:hover:bg-opacity-10"
+          class="align-bottom inline-flex items-center justify-center cursor-pointer leading-5 transition-colors duration-150 font-medium  p-2 rounded-md text-gray-600 dark:text-gray-400 focus:outline-none border border-transparent active:bg-transparent hover:bg-gray-100 focus:ring focus:ring-gray-300 dark:hover:bg-gray-500 dark:hover:text-gray-300 dark:hover:bg-opacity-10"
           type="button"
           aria-label="Next"
+          disabled={currentPage === lastPage || lastPage}
         >
           <svg
             class="h-3 w-3"

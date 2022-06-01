@@ -6,8 +6,6 @@ import { SidebarContext } from "../../context/SidebarContext";
 import { notifyError, notifySuccess } from "../../utils/toast";
 import AdminServices from "../../services/AdminServices";
 import useToggleDrawer from "../../hooks/useToggleDrawer";
-import ShippingServices from "../../services/ShippingServices";
-import { useShippingContext } from "../../context/Shipping";
 import { useCategoryContext } from "../../context/Category";
 import CategoryServices from "../../services/CategoryServices";
 
@@ -15,21 +13,9 @@ const MainModal = ({ id }) => {
   const { isModalOpen, closeModal, setIsUpdate } = useContext(SidebarContext);
   const location = useLocation();
   const { setServiceId } = useToggleDrawer();
-  const { refetchData: refetchShippingData } = useShippingContext();
   const { refetchData: refetchCategoryData } = useCategoryContext();
 
   const handleDelete = () => {
-    if (location.pathname === "/shipping-lines") {
-      ShippingServices.deleteShippingLine(id)
-        .then((res) => {
-          setIsUpdate(true);
-          notifySuccess("Shipping line deleted successfully.");
-          refetchShippingData();
-        })
-        .catch((err) => {});
-      closeModal();
-    }
-
     if (location.pathname === "/category") {
       CategoryServices.deleteCategory(id)
         .then((res) => {

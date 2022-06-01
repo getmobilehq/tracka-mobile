@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useEffect, useContext } from "react";
 import {
   Table,
   TableHeader,
@@ -22,7 +22,13 @@ import { useCategoryContext } from "../context/Category";
 const Category = () => {
   const { toggleDrawer } = useContext(SidebarContext);
 
-  const { data, loading } = useCategoryContext();
+  const { data, refetchData, loading } = useCategoryContext();
+
+  useEffect(() => {
+    refetchData();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const {
     searchRef,

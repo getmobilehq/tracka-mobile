@@ -13,6 +13,7 @@ import { SidebarProvider } from "./context/SidebarContext";
 import ProjectsProvider from "./context/Projects";
 import AllocationsProvider from "./context/Allocations";
 import CategoryProvider from "./context/Category";
+import CommunityProvider from "./context/Community";
 
 const Layout = lazy(() => import("./layout/Layout.js"));
 const Login = lazy(() => import("./pages/Login"));
@@ -26,6 +27,7 @@ const App = () => {
     ProjectsProvider,
     AllocationsProvider,
     CategoryProvider,
+    CommunityProvider,
   ];
 
   return (

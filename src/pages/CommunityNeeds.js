@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useRef, useContext } from "react";
 import {
   Table,
   TableHeader,
@@ -9,30 +9,31 @@ import {
   CardBody,
   Input,
   Button,
-  Pagination,
 } from "@windmill/react-ui";
 import PageTitle from "../components/Typography/PageTitle";
 import { FiPlus } from "react-icons/fi";
 import { SidebarContext } from "../context/SidebarContext";
-import useFilter from "../hooks/useFilter";
 import Loading from "../components/preloader/Loading";
-import CategoryTable from "../components/category/categoryTableComp";
-import { useCategoryContext } from "../context/Category";
+import Pagination from "../components/pagination";
+import NotFound from "../components/table/NotFound";
+import CommunityTable from "../components/communityNeeds/communityTable";
+import { useCommunityContext } from "../context/Community";
 
 const CommunityNeeds = () => {
   const { toggleDrawer } = useContext(SidebarContext);
 
-  const { data, loading } = useCategoryContext();
-
   const {
-    searchRef,
-    serviceData,
-    handleChangePage,
-    totalResults,
-    resultsPerPage,
-    dataTable,
-    handleSubmitForAll,
-  } = useFilter(data);
+    loading,
+    totalCount,
+    pageSize,
+    currentPage,
+    currentTableData,
+    handlePageChange,
+  } = useCommunityContext();
+
+  const handleSubmitForAll = () => {};
+
+  const searchRef = useRef();
 
   return (
     <>
@@ -50,7 +51,7 @@ const CommunityNeeds = () => {
                 className="border h-12 text-sm focus:outline-none block w-full bg-gray-100 border-transparent focus:bg-white"
                 type="search"
                 name="search"
-                placeholder="Search by holding bay"
+                placeholder="Search Community Needs"
               />
               <button
                 type="submit"
@@ -63,7 +64,7 @@ const CommunityNeeds = () => {
                 <span className="mr-3">
                   <FiPlus />
                 </span>
-                Create Category
+                Create Need
               </Button>
             </div>
           </form>
@@ -72,33 +73,43 @@ const CommunityNeeds = () => {
 
       {loading ? (
         <Loading loading={loading} />
-      ) : (
+      ) : currentTableData?.length !== 0 ? (
         <TableContainer className="mb-8 rounded-b-lg">
           <Table>
             <TableHeader>
               <tr>
                 <TableCell>S/N</TableCell>
-                <TableCell>Name</TableCell>
+                <TableCell>Title</TableCell>
+                <TableCell>Description</TableCell>
+                <TableCell>Category</TableCell>
+                <TableCell>Status</TableCell>
+                <TableCell>LGA</TableCell>
+                <TableCell>State</TableCell>
+                <TableCell>Upvote</TableCell>
+                <TableCell>Downvote</TableCell>
                 <TableCell>Created At</TableCell>
 
                 <TableCell className="text-right">Actions</TableCell>
               </tr>
             </TableHeader>
 
-            <CategoryTable categories={dataTable} />
+            <CommunityTable needs={currentTableData} />
           </Table>
 
-          {serviceData.length > 0 && (
+          {currentTableData?.length > 0 && (
             <TableFooter>
               <Pagination
-                totalResults={totalResults}
-                resultsPerPage={resultsPerPage}
-                onChange={handleChangePage}
-                label="Holding Bays Page Navigation"
+                className="pagination-bar"
+                currentPage={currentPage}
+                totalResults={totalCount}
+                pageSize={pageSize}
+                onPageChange={(page) => handlePageChange(page)}
               />
             </TableFooter>
           )}
         </TableContainer>
+      ) : (
+        <NotFound title="Community Needs" />
       )}
     </>
   );
