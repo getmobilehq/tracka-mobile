@@ -1,4 +1,4 @@
-import { req } from "./httpService";
+import requests, { req } from "./httpService";
 
 const API_SERVICE_URL =
   "http://budgitapi-env.eba-82vtvuzm.eu-west-2.elasticbeanstalk.com";
@@ -41,12 +41,14 @@ const ProjectServices = {
     );
   },
 
-  getProjects() {
-    return req.get(
-      isProd
-        ? API_SERVICE_URL + "/index.php/projects"
-        : "/budgitapi/index.php/projects"
-    );
+  getProjects(page = 1, limit = 20) {
+    // return req.get(
+    //   isProd
+    //     ? API_SERVICE_URL + "/index.php/projects"
+    //     : "/budgitapi/index.php/projects"
+    // );
+
+    return requests.get(`/api/v1/project?limit=${limit}&page=${page}`);
   },
 
   getProjectsPerPage(pageNumber = 1, postPerPage = 10) {

@@ -18,16 +18,25 @@ const ProjectsProvider = ({ children }) => {
   const fetchPage = async (page = 1) => {
     setLoading(true);
     const response = await ProjectsServices.getProjectsPerPage(page);
+    const uResponse = await ProjectsServices.getProjects(page);
 
     setLoading(false);
 
     console.log({ page, response });
+    console.log({ uResponse: uResponse.data });
 
-    setProjects((prevProjects) => [...prevProjects, ...response.projects.data]);
+    // setProjects((prevProjects) => [...prevProjects, ...response.projects.data]);
+    setProjects((prevProjects) => [...prevProjects, ...uResponse.data.rows]);
 
-    setPageDetails(response.projects);
+    // setPageDetails(response.projects);
+    setPageDetails({
+      ...uResponse.data,
+      per_page: uResponse.data.limit,
+      total: uResponse.data.count,
+      current_page: uResponse.data.page,
+    });
 
-    return response;
+    return uResponse;
   };
 
   useEffect(() => {
@@ -43,7 +52,7 @@ const ProjectsProvider = ({ children }) => {
     page > pageDetails.current_page && fetchPage(page);
   };
 
-  const pageSize = pageDetails?.per_page;
+  const pageSize = 10 || pageDetails?.per_page;
   const totalCount = pageDetails?.total;
 
   const currentTableData = useMemo(() => {
@@ -83,3 +92,17 @@ export function useProjectsContext() {
   return context;
 }
 export default ProjectsProvider;
+
+const data = {
+  name: "sample project",
+  description: "sample project description",
+  amount: "234564677",
+  source_link: null,
+  year: null,
+  num_views: 0,
+  upvote: 0,
+  downvote: 0,
+  state: "Enugu",
+  amount_disbursed: null,
+  createdAt: "2022-01-21T00:10:16.583Z",
+};

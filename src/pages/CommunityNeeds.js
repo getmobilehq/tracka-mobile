@@ -59,14 +59,14 @@ const CommunityNeeds = () => {
               ></button>
             </div>
 
-            <div className="w-full md:w-56 lg:w-56 xl:w-56">
+            {/* <div className="w-full md:w-56 lg:w-56 xl:w-56">
               <Button onClick={toggleDrawer} className="w-full rounded-md h-12">
                 <span className="mr-3">
                   <FiPlus />
                 </span>
                 Create Need
               </Button>
-            </div>
+            </div> */}
           </form>
         </CardBody>
       </Card>
@@ -75,7 +75,7 @@ const CommunityNeeds = () => {
         <Loading loading={loading} />
       ) : currentTableData?.length !== 0 ? (
         <TableContainer className="mb-8 rounded-b-lg">
-          <Table>
+          <Table className="table-auto">
             <TableHeader>
               <tr>
                 <TableCell>S/N</TableCell>

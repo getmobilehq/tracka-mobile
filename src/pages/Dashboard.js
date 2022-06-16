@@ -44,19 +44,21 @@ const Dashboard = () => {
       ) : (
         currentTableData?.length !== 0 && (
           <TableContainer className="mb-8 rounded-b-lg">
-            <Table>
+            <Table className="table-auto">
               <TableHeader>
                 <tr>
                   <TableCell>S/N</TableCell>
-                  <TableCell>Title</TableCell>
-                  <TableCell>Region</TableCell>
-                  <TableCell>Year</TableCell>
-                  <TableCell>Code</TableCell>
-                  <TableCell>State</TableCell>
-                  <TableCell>Type</TableCell>
-                  <TableCell>Agency</TableCell>
-                  <TableCell>Ministry</TableCell>
+                  <TableCell>Name</TableCell>
+                  <TableCell>Description</TableCell>
                   <TableCell>Amount</TableCell>
+                  <TableCell>Source Link</TableCell>
+                  <TableCell>Year</TableCell>
+                  <TableCell>Number of Views</TableCell>
+                  <TableCell>Upvote</TableCell>
+                  <TableCell>Downvote</TableCell>
+                  <TableCell>State</TableCell>
+                  <TableCell>Amount Disbursed</TableCell>
+                  <TableCell>Created At</TableCell>
                 </tr>
               </TableHeader>
 

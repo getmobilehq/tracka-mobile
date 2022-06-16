@@ -5,29 +5,34 @@ import React, {
   useEffect,
   useState,
 } from "react";
-import ProjectsServices from "../../services/ProjectServices";
+import AllocationServices from "../../services/AllocationServices";
 
-const ProjectsContext = createContext();
+const AllocationsContext = createContext();
 
 const AllocationsProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [nextPage, setNextPage] = useState(1);
-  const [projects, setProjects] = useState([]);
+  const [allocations, setAllocations] = useState([]);
   const [pageDetails, setPageDetails] = useState({});
 
   const fetchPage = async (page = 1) => {
     setIsLoading(true);
-    const response = await ProjectsServices.getAllocationsPerPage(page);
+    const response = await AllocationServices.getAllocation(page);
 
     setIsLoading(false);
 
-    setProjects((prevProjects) => [
-      ...prevProjects,
-      ...response.allocations.data,
+    setAllocations((prevAllocations) => [
+      ...prevAllocations,
+      ...response.data.rows,
     ]);
 
-    setPageDetails(response.allocations);
+    setPageDetails({
+      ...response.data,
+      per_page: response.data.limit,
+      total: response.data.count,
+      current_page: response.data.page,
+    });
 
     return response;
   };
@@ -48,15 +53,15 @@ const AllocationsProvider = ({ children }) => {
   const currentTableData = useMemo(() => {
     const firstPageIndex = (currentPage - 1) * pageSize;
     const lastPageIndex = firstPageIndex + pageSize;
-    return projects.slice(firstPageIndex, lastPageIndex);
-  }, [currentPage, pageSize, projects]);
+    return allocations.slice(firstPageIndex, lastPageIndex);
+  }, [currentPage, pageSize, allocations]);
 
   return (
-    <ProjectsContext.Provider
+    <AllocationsContext.Provider
       value={{
         data: pageDetails,
         currentPage,
-        projects,
+        allocations,
         loading: isLoading,
         // refetchData,
         totalCount,
@@ -66,12 +71,12 @@ const AllocationsProvider = ({ children }) => {
       }}
     >
       {children}
-    </ProjectsContext.Provider>
+    </AllocationsContext.Provider>
   );
 };
 
-export function useProjectsContext() {
-  const context = useContext(ProjectsContext);
+export function useAllocationsContext() {
+  const context = useContext(AllocationsContext);
 
   if (context === undefined) {
     throw new Error(
@@ -81,4 +86,5 @@ export function useProjectsContext() {
 
   return context;
 }
+
 export default AllocationsProvider;

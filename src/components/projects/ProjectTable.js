@@ -29,17 +29,19 @@ const ProjectsTable = ({ projects }) => {
     <>
       {/* {serviceId && <MainModal id={serviceId} />}
 
-      {
-        <MainDrawer>
-          <AdminDrawer />
-        </MainDrawer>
-      }
+      
+        
+      
 
       {serviceId && (
         <MainDrawer>
           <CustomerDetailDrawer customer={currentCustomer} />
         </MainDrawer>
       )} */}
+
+      <MainDrawer>
+        <AdminDrawer />
+      </MainDrawer>
 
       <TableBody>
         {projects?.map((project, key) => (
@@ -51,42 +53,54 @@ const ProjectsTable = ({ projects }) => {
               <div className="flex items-center">
                 <div>
                   <h2 className="text-sm capitalize font-medium">
-                    {project.title}
+                    {project.name}
                   </h2>
                 </div>
               </div>
             </TableCell>
             <TableCell>
-              <span className="text-sm">{project.region}</span>{" "}
+              <span className="text-sm">{project.description}</span>{" "}
             </TableCell>
-            <TableCell>
-              <span className="text-sm ">{project.year}</span>
-            </TableCell>
-
-            <TableCell>
-              <span className="text-sm ">{project.code}</span>
-            </TableCell>
-
-            <TableCell>
-              <span className="text-sm ">{project.state}</span>
-            </TableCell>
-
-            <TableCell>
-              <span className="text-sm">{project.type}</span>{" "}
-            </TableCell>
-
-            <TableCell>
-              <span className="text-sm">{project.agency}</span>{" "}
-            </TableCell>
-
-            <TableCell>
-              <span className="text-sm">{project.ministry}</span>{" "}
-            </TableCell>
-
             <TableCell>
               <span className="text-sm ">
                 {numberFormatter(project.amount)}
               </span>
+            </TableCell>
+
+            <TableCell>
+              <span className="text-sm ">{project.source_link}</span>
+            </TableCell>
+
+            <TableCell>
+              <span className="text-sm ">{project.year}</span>
+            </TableCell>
+
+            <TableCell className="text-center">
+              <span className="text-sm">{project.num_views}</span>{" "}
+            </TableCell>
+
+            <TableCell className="text-center">
+              <span className="text-sm">{project.upvote}</span>{" "}
+            </TableCell>
+
+            <TableCell className="text-center">
+              <span className="text-sm">{project.downvote}</span>{" "}
+            </TableCell>
+
+            <TableCell>
+              <span className="text-sm">{project.state}</span>{" "}
+            </TableCell>
+
+            <TableCell>
+              <span className="text-sm ">
+                {numberFormatter(project.amount_disbursed)}
+              </span>
+            </TableCell>
+
+            <TableCell>
+              <span className="text-sm">
+                {new Date(project.createdAt).toLocaleString()}
+              </span>{" "}
             </TableCell>
           </TableRow>
         ))}
