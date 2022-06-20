@@ -8,12 +8,15 @@ import AdminServices from "../../services/AdminServices";
 import useToggleDrawer from "../../hooks/useToggleDrawer";
 import { useCategoryContext } from "../../context/Category";
 import CategoryServices from "../../services/CategoryServices";
+import AllocationServices from "../../services/AllocationServices";
+import { useAllocationsContext } from "../../context/Allocations";
 
 const MainModal = ({ id }) => {
   const { isModalOpen, closeModal, setIsUpdate } = useContext(SidebarContext);
   const location = useLocation();
   const { setServiceId } = useToggleDrawer();
   const { refetchData: refetchCategoryData } = useCategoryContext();
+  const { refetchData: refetchAllocationData } = useAllocationsContext();
 
   const handleDelete = () => {
     if (location.pathname === "/category") {
@@ -22,6 +25,17 @@ const MainModal = ({ id }) => {
           setIsUpdate(true);
           notifySuccess("Category deleted successfully.");
           refetchCategoryData();
+        })
+        .catch((err) => {});
+      closeModal();
+    }
+
+    if (location.pathname === "/allocations") {
+      AllocationServices.deleteAllocation(id)
+        .then((res) => {
+          setIsUpdate(true);
+          notifySuccess("Allocation deleted successfully.");
+          refetchAllocationData();
         })
         .catch((err) => {});
       closeModal();

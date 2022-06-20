@@ -54,31 +54,31 @@ axiosInstance.interceptors.response.use(
     const errorResponse = error.response;
     const originalConfig = error?.config;
 
-    if (
-      errorResponse.config.url === "/user/add_delivery_person/" ||
-      errorResponse.config.url === "/user/add_admin/"
-    ) {
-      const errMsg = errorResponse.data.error.phone[0];
+    // if (
+    //   errorResponse.config.url === "/user/add_delivery_person/" ||
+    //   errorResponse.config.url === "/user/add_admin/"
+    // ) {
+    //   const errMsg = errorResponse.data.error.phone[0];
 
-      notifyError(errMsg);
+    //   notifyError(errMsg);
 
-      return Promise.reject(error);
-    }
+    //   return Promise.reject(error);
+    // }
 
-    if (errorResponse.config.url === "/user/add_admin/") {
-      const errMsg = errorResponse.data.error.email[0];
+    // if (errorResponse.config.url === "/user/add_admin/") {
+    //   const errMsg = errorResponse.data.error.email[0];
 
-      notifyError(errMsg);
+    //   notifyError(errMsg);
 
-      return Promise.reject(error);
-    }
+    //   return Promise.reject(error);
+    // }
 
-    if (
-      errorResponse.config.url === "/account/user/forget_password/confirm/" ||
-      errorResponse.config.url === "/account/user/forget_password/"
-    ) {
-      return Promise.reject(error);
-    }
+    // if (
+    //   errorResponse.config.url === "/account/user/forget_password/confirm/" ||
+    //   errorResponse.config.url === "/account/user/forget_password/"
+    // ) {
+    //   return Promise.reject(error);
+    // }
 
     if (
       errorResponse.data.detail === "Token is blacklisted" ||

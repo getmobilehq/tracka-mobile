@@ -8,13 +8,13 @@ import {
   Input,
   Card,
   CardBody,
-  //   Pagination,
+  Pagination,
 } from "@windmill/react-ui";
 import NotFound from "../components/table/NotFound";
 import Loading from "../components/preloader/Loading";
 import PageTitle from "../components/Typography/PageTitle";
 import ProjectsTable from "../components/projects/ProjectTable";
-import Pagination from "../components/pagination";
+// import Pagination from "../components/pagination";
 import { useProjectsContext } from "../context/Projects";
 
 const Projects = () => {
@@ -87,13 +87,25 @@ const Projects = () => {
 
           <TableFooter>
             {currentTableData?.length > 0 && (
-              <Pagination
-                className="pagination-bar"
-                currentPage={currentPage}
-                totalCount={totalCount}
-                pageSize={pageSize}
-                onPageChange={(page) => handlePageChange(page)}
-              />
+              <>
+                <Pagination
+                  className="pagination-bar"
+                  currentPage={currentPage}
+                  totalCount={totalCount}
+                  pageSize={pageSize}
+                  onPageChange={(page) => handlePageChange(page)}
+                />
+
+                {/* <Pagination
+                  totalResults={totalCount}
+                  resultsPerPage={pageSize}
+                  onChange={(page, i) => {
+                    console.log({ page, i });
+                    handlePageChange(page);
+                  }}
+                  label="Page navigation"
+                /> */}
+              </>
             )}
           </TableFooter>
         </TableContainer>

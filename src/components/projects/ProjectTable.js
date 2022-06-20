@@ -7,8 +7,6 @@ import EditDeleteButton from "../table/EditDeleteButton";
 import MainDrawer from "../drawer/MainDrawer";
 import AdminDrawer from "../admin/AdminDrawer";
 import { useLocation } from "react-router-dom";
-import ViewDetailButton from "../table/ViewDetailButton";
-import CustomerDetailDrawer from "../drawer/CustomerDetailDrawer";
 import numberFormatter from "../../utils/numberFormatter";
 
 const ProjectsTable = ({ projects }) => {

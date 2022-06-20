@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useMemo } from "react";
+import React, { useRef, useContext } from "react";
 import {
   Table,
   TableHeader,
@@ -8,15 +8,20 @@ import {
   Input,
   Card,
   CardBody,
+  Button,
 } from "@windmill/react-ui";
+import { FiPlus } from "react-icons/fi";
 import Pagination from "../../components/pagination";
 import NotFound from "../../components/table/NotFound";
 import Loading from "../../components/preloader/Loading";
 import PageTitle from "../../components/Typography/PageTitle";
 import FederalAllocationTable from "../../components/allocations/FederalAllocationTable";
 import { useAllocationsContext } from "../../context/Allocations";
+import { SidebarContext } from "../../context/SidebarContext";
 
 const Allocations = () => {
+  const { toggleDrawer } = useContext(SidebarContext);
+
   const {
     loading,
     totalCount,
@@ -53,6 +58,15 @@ const Allocations = () => {
                 className="absolute right-0 top-0 mt-5 mr-1"
               ></button>
             </div>
+
+            <div className="w-full md:w-56 lg:w-56 xl:w-56">
+              <Button onClick={toggleDrawer} className="w-full rounded-md h-12">
+                <span className="mr-3">
+                  <FiPlus />
+                </span>
+                Create Allocations
+              </Button>
+            </div>
           </form>
         </CardBody>
       </Card>
@@ -74,7 +88,7 @@ const Allocations = () => {
                 <TableCell>Category</TableCell>
                 <TableCell>Created At</TableCell>
 
-                {/* <TableCell className="text-right">Actions</TableCell> */}
+                <TableCell className="text-right">Actions</TableCell>
               </tr>
             </TableHeader>
 
